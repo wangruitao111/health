@@ -32,12 +32,12 @@ public class ConsultServiceImpl extends ServiceImpl<ConsultMapper, Consult> impl
     }
 
     @Override
-    public R<List<Consult>> getConsultByName(String name) {
+    public R<Page<Consult>> getConsultByName(int page, int pageSize, String name) {
+        Page<Consult> pageInfo = new Page<>(page, pageSize);
         LambdaQueryWrapper<Consult> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(name != null, Consult::getHeadLine, name)
-                    .orderByDesc(Consult::getCreateTime);
-        List<Consult> consultList = this.list(queryWrapper);
-        return R.success(consultList);
+        queryWrapper.orderByDesc(Consult::getCreateTime);
+        Page<Consult> consultPage = this.page(pageInfo, queryWrapper);
+        return R.success(consultPage);
     }
 
     @Override

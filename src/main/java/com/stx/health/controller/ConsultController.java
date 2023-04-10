@@ -1,5 +1,6 @@
 package com.stx.health.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.stx.health.common.R;
 import com.stx.health.pojo.Consult;
 import com.stx.health.service.ConsultService;
@@ -28,14 +29,14 @@ public class ConsultController {
      * @return
      */
     @GetMapping("/getLater")
-    public R<List<Consult>> getLaterConsult(){return null;}
+    public R<List<Consult>> getLaterConsult(){return consultService.getConsult();}
 
     /**
      * 查询资讯
      * @return
      */
-    @GetMapping("/getAll")
-    public R<List<Consult>> getAllConsult(String name){return consultService.getConsultByName(name);}
+    @GetMapping("/getPage")
+    public R<Page<Consult>> getAllConsult(int page, int pageSize, String name){return consultService.getConsultByName(page, pageSize, name);}
 
     /**
      * 修改资讯

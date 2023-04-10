@@ -27,14 +27,16 @@ public class LoginCheckFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        log.info("{}", request.getSession().getAttribute(Contants.SESSION_USER));
+        log.info("{}", BaseContext.getCurrentId());
 
         String requestURI = request.getRequestURI();
 
         String[] urls = new String[]{
                 "/user/login",
                 "/user/logout",
-                "/user/saveUser"
+                "/user/saveUser",
+                "/admin/login",
+                "/admin/logout"
         };
 
         boolean check = check(urls, requestURI);
@@ -47,6 +49,13 @@ public class LoginCheckFilter implements Filter {
         if (request.getSession().getAttribute(Contants.SESSION_USER) != null){
             Long userId = (Long) request.getSession().getAttribute(Contants.SESSION_USER);
             BaseContext.setCurrentId(userId);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if (request.getSession().getAttribute(Contants.SESSION_ADMIN) != null){
+            Long adminId = (Long) request.getSession().getAttribute(Contants.SESSION_ADMIN);
+            BaseContext.setCurrentId(adminId);
             filterChain.doFilter(request, response);
             return;
         }

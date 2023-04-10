@@ -1,5 +1,6 @@
 package com.stx.health.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.stx.health.common.R;
 import com.stx.health.pojo.Consult;
@@ -14,7 +15,7 @@ public interface ConsultService extends IService<Consult> {
 
     public R<List<Consult>> getConsult();
 
-    public R<List<Consult>> getConsultByName(String name);
+    public R<Page<Consult>> getConsultByName(int page, int pageSize, String name);
 
     public R<String> updateConsult(@RequestBody Consult consult);
 

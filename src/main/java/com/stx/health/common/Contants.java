@@ -7,6 +7,8 @@ public class Contants {
     // 保存当前用户的key
     public static final String SESSION_USER = "user";
 
+    public static final String SESSION_ADMIN = "admin";
+
     public static final int STATUS_NORMAL = 1;      // 账号状态：正常
     public static final int STATUS_DISABLED = 0;    // 账号状态：禁用
 
