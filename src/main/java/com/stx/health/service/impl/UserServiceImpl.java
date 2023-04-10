@@ -9,6 +9,7 @@ import com.stx.health.common.R;
 import com.stx.health.mapper.UserMapper;
 import com.stx.health.pojo.User;
 import com.stx.health.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Override
     public R<User> login(HttpServletRequest request, @RequestBody User user) {
@@ -32,7 +34,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (u == null || !u.getPassword().equals(password)) return R.error("登陆失败");
         if (u.getStatus() == Contants.STATUS_DISABLED) return R.error("账户已禁用");
         if (u.getIsDeleted() == Contants.STATUS_LOG_OUT) return R.error("账号已注销");
-        request.getSession().setAttribute(Contants.SESSION_USER, user.getId());
+
+        request.getSession().setAttribute(Contants.SESSION_USER, u.getId());
+
+        log.info( "{}" ,request.getSession().getAttribute(Contants.SESSION_USER));
 
         return R.success(u);
     }
@@ -55,13 +60,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public R<String> saveAvatarByUserId(HttpServletRequest request, String avatar) {
-        Long id = BaseContext.getCurrentId();
-        User user = new User();
-        user.setId(id);
-        user.setAvatar(avatar);
+    public R<String> saveAvatarByUserId(HttpServletRequest request, @RequestBody User user) {
         this.updateById(user);
         return R.success("保存成功");
+    }
+
+    @Override
+    public R<User> selectUserById() {
+        return R.success(this.getById(BaseContext.getCurrentId()));
     }
 
     @Override

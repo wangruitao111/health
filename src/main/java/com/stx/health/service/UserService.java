@@ -16,7 +16,9 @@ public interface UserService extends IService<User> {
 
     public R<String> saveUser(HttpServletRequest request, @RequestBody User user);
 
-    public R<String> saveAvatarByUserId(HttpServletRequest request, String avatar);
+    public R<String> saveAvatarByUserId(HttpServletRequest request, @RequestBody User user);
+
+    public R<User> selectUserById();
 
     public R<Page> UserQueryByUserName(int page, int pageSize, String userName);
 

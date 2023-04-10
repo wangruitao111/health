@@ -58,11 +58,18 @@ public class UserController {
     /**
      * 用户头像添加或修改
      * @param request
-     * @param avatar
+     * @param user
      * @return
      */
     @PostMapping("/saveAvatar")
-    public R<String> saveAvatar(HttpServletRequest request, String avatar){return userService.saveAvatarByUserId(request, avatar);}
+    public R<String> saveAvatar(HttpServletRequest request, @RequestBody User user){return userService.saveAvatarByUserId(request, user);}
+
+    /**
+     * 更新目前的用户状态
+     * @return
+     */
+    @GetMapping("/getUser")
+    public R<User> getUserAgain(){return userService.selectUserById();}
 
     /**
      * 查询用户

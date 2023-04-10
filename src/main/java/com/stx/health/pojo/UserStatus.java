@@ -7,6 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 用户关系
+ */
 @Data
 public class UserStatus implements Serializable {
     private static final long serialVersionUID = 1L;

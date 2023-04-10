@@ -7,6 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 用户标签
+ */
 @Data
 public class UserLabel implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,7 +17,7 @@ public class UserLabel implements Serializable {
     private Long id;
     // 用户主键
     @TableField(fill = FieldFill.INSERT)
-    private Long userId;
+    private Long createUser;
     // 标签名字
     private String name;
     // 创建时间

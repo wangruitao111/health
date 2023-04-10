@@ -42,7 +42,7 @@ public class UserLabelServiceImpl extends ServiceImpl<UserLabelMapper, UserLabel
     public R<List<UserLabel>> getAllTheUserLabels() {
         Long userId = BaseContext.getCurrentId();
         LambdaQueryWrapper<UserLabel> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserLabel::getUserId, userId);
+        queryWrapper.eq(UserLabel::getCreateUser, userId);
         List<UserLabel> userLabels = this.list(queryWrapper);
         return R.success(userLabels);
     }

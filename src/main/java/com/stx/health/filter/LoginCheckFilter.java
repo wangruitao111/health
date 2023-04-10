@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.stx.health.common.BaseContext;
 import com.stx.health.common.Contants;
 import com.stx.health.common.R;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
@@ -14,7 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(filterName = "LoginCheckFilter", urlPatterns = "/*")
-//@Component
+@Component
+@Slf4j
 public class LoginCheckFilter implements Filter {
 
     public static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
@@ -23,6 +26,8 @@ public class LoginCheckFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        log.info("{}", request.getSession().getAttribute(Contants.SESSION_USER));
 
         String requestURI = request.getRequestURI();
 
@@ -43,6 +48,7 @@ public class LoginCheckFilter implements Filter {
             Long userId = (Long) request.getSession().getAttribute(Contants.SESSION_USER);
             BaseContext.setCurrentId(userId);
             filterChain.doFilter(request, response);
+            return;
         }
 
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));

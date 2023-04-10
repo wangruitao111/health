@@ -1,6 +1,5 @@
 server:
   port: 9001
-  address: 192.168.137.154
 spring:
   application:
     name: health
