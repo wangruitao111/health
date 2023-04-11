@@ -14,7 +14,7 @@ public class Consult {
     // 主键
     private Long id;
     // 标题
-    private String headLine;
+    private String headline;
     // 摘要
     private String digest;
     // 详情
