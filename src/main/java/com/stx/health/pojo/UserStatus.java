@@ -2,6 +2,7 @@ package com.stx.health.pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -25,7 +26,7 @@ public class UserStatus implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     // 是否删除 0 删除 | 1 正常
-    @TableField(exist = false)
+    @TableLogic
     private Integer isDeleted;
 
 }

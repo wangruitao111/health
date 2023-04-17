@@ -22,4 +22,6 @@ public interface UserService extends IService<User> {
 
     public R<Page> UserQueryByUserName(int page, int pageSize, String userName);
 
+
+
 }

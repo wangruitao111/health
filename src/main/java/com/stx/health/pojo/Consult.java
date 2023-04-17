@@ -2,6 +2,7 @@ package com.stx.health.pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class Consult {
     // 详情
     private String details;
     // 是否删除
-    @TableField(exist = false)
+    @TableLogic
     private int isDeleted;
     // 创建时间
     @TableField(fill = FieldFill.INSERT_UPDATE)

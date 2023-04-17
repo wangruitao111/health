@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: health
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,5 +21,10 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+      logic-delete-field: isDeleted
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
 health:
-  path: D:\JISHE\health\src\main\resources\static\img\
+  imgPath: D:\JISHE\health\src\main\resources\static\img\
+  videoPath: D:\JISHE\health\src\main\resources\static\video\

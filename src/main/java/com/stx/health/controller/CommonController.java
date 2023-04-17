@@ -1,7 +1,6 @@
 package com.stx.health.controller;
 
 import com.stx.health.common.R;
-import org.apache.logging.log4j.util.Base64Util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,14 +8,16 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Base64;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/common")
 public class CommonController {
-    @Value("${health.path}")
-    private String basePath;
+    @Value("${health.imgPath}")
+    private String imgBasePath;
+
+    @Value("${health.videoPath}")
+    private String videoBasePath;
 
     /**
      * 文件上传
@@ -34,8 +35,14 @@ public class CommonController {
         //使用UUID重新生成文件名，防止文件名称重复造成文件覆盖
         String fileName = UUID.randomUUID().toString() + suffix;//dfsdfdfd.jpg
 
-        //创建一个目录对象
-        File dir = new File(basePath);
+        File dir = null;
+        if (suffix.equals(".mp4")){
+            dir = new File(videoBasePath);
+        }else {
+            //创建一个目录对象
+            dir = new File(imgBasePath);
+        }
+
         //判断当前目录是否存在
         if(!dir.exists()){
             //目录不存在，需要创建
@@ -43,8 +50,12 @@ public class CommonController {
         }
 
         try {
-            //将临时文件转存到指定位置
-            file.transferTo(new File(basePath + fileName));
+            if (suffix.equals(".mp4")){
+                file.transferTo(new File(videoBasePath + fileName));
+            }else {
+                //将临时文件转存到指定位置
+                file.transferTo(new File(imgBasePath + fileName));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,13 +77,23 @@ public class CommonController {
                 name = "8a620944-857e-4532-98f7-a1394109e732.jpg";
             }
 
+            String notPointSuffix = name.substring(name.indexOf("."), name.length());
+
             //输入流，通过输入流读取文件内容
-            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
+            FileInputStream fileInputStream = null;
 
             //输出流，通过输出流将文件写回浏览器
-            ServletOutputStream outputStream = response.getOutputStream();
+            ServletOutputStream outputStream = null;
 
-            response.setContentType("image/jpeg");
+            if (notPointSuffix.equals(".mp4")){
+                fileInputStream = new FileInputStream(new File(videoBasePath + name));
+                outputStream = response.getOutputStream();
+                response.setContentType("video/mp4");
+            }else {
+                fileInputStream = new FileInputStream(new File(imgBasePath + name));
+                outputStream = response.getOutputStream();
+                response.setContentType("image/jpeg");
+            }
 
             int len = 0;
             byte[] bytes = new byte[1024];
@@ -88,6 +109,4 @@ public class CommonController {
             e.printStackTrace();
         }
     }
-
-
 }

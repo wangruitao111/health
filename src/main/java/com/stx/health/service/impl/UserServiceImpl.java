@@ -8,6 +8,7 @@ import com.stx.health.common.Contants;
 import com.stx.health.common.R;
 import com.stx.health.mapper.UserMapper;
 import com.stx.health.pojo.User;
+import com.stx.health.pojo.UserPost;
 import com.stx.health.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;

@@ -5,29 +5,27 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
-import java.io.Serializable;
+import java.sql.Blob;
 import java.time.LocalDateTime;
 
-/**
- * 用户标签
- */
 @Data
-public class UserLabel implements Serializable {
+public class UserPost {
     private static final long serialVersionUID = 1L;
-    // 用户标签主键
+    // 主键
     private Long id;
-    // 用户主键
-    @TableField(fill = FieldFill.INSERT)
+    // 用户Id
+    @TableField(fill =  FieldFill.INSERT)
     private Long createUser;
-    // 标签名字
-    private String name;
+    // 动态文字内容
+    private String text;
+    // 动态图片内容
+    private String picture;
+    // 动态视频内容
+    private String video;
     // 创建时间
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-    // 更改时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-    // 是否删除 0 删除 | 1 正常
+    private LocalDateTime createTime;
+    // 是否删除
     @TableLogic
     private Integer isDeleted;
 }

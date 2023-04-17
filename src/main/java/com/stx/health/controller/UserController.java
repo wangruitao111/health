@@ -2,12 +2,9 @@ package com.stx.health.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.stx.health.common.R;
-import com.stx.health.pojo.User;
-import com.stx.health.pojo.UserLabel;
-import com.stx.health.pojo.UserStatus;
-import com.stx.health.service.UserLabelService;
-import com.stx.health.service.UserService;
-import com.stx.health.service.UserStatusService;
+import com.stx.health.pojo.*;
+import com.stx.health.service.*;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,6 +23,12 @@ public class UserController {
 
     @Resource
     private UserStatusService userStatusService;
+
+    @Resource
+    private UserPostService userPostService;
+
+    @Resource
+    private UserGroupService userGroupService;
 
     /**
      * 用户登录
@@ -143,4 +146,36 @@ public class UserController {
     @DeleteMapping("/removeUserStatus")
     public R<String> removeUserStatus(Long userStatusId){return userStatusService.removeUserStatusByTowUserId(userStatusId);}
 
+    /**
+     * 发送动态
+     * @param userPost
+     * @return
+     */
+    @PostMapping("/sendUserPost")
+    public R<String> sendUserPost(@RequestBody UserPost userPost){return userPostService.saveUserPost(userPost);}
+
+    /**
+     * 获取动态
+     * @param id
+     * @return
+     */
+    @GetMapping("/getUserPost")
+    public R<Page<UserPost>> getUserPost(int size, int sizePage, Long id){return userPostService.selectUserPostPageById(size, sizePage, id);}
+
+    /**
+     * 发送组团消息
+     * @param userGroup
+     * @return
+     */
+    @PostMapping("/sendUserGroup")
+    public R<String> sendUserGroup(@RequestBody UserGroup userGroup){return userGroupService.saveUserGroup(userGroup);}
+
+    /**
+     * 获取组团信息
+     * @param size
+     * @param sizePage
+     * @return
+     */
+    @GetMapping("/getUserGroup")
+    public R<List<UserGroup>> getUserGroup(int size, int sizePage){return userGroupService.selectUserPostPage(size, sizePage);}
 }
